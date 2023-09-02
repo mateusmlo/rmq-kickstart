@@ -1,0 +1,22 @@
+version: '3.8'
+
+networks:
+  rmq-net:
+    driver: bridge
+
+services:
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+    env_file:
+      - .env
+    networks:
+      - rmq-net
+    ports:
+      - '5672:5672'
+      - '15672:15672' 
+    volumes:
+      - 'rabbitmqstats_data:/bitnami/rabbitmq/mnesia'
+
+volumes:
+  rabbitmqstats_data:
+    driver: local    
