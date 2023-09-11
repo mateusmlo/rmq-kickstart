@@ -10,8 +10,8 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-// Task creates new message that takes a while to process
-func Task(ch *amqp.Channel, q *amqp.Queue) {
+// CreateTask creates new message that takes a while to process
+func CreateTask(ch *amqp.Channel, q *amqp.Queue) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 

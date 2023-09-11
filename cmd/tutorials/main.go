@@ -24,19 +24,19 @@ func main() {
 	config.CreateExchange(ch, "logs")
 
 	if arg1 == "send" {
-		send.Send(ch, &q)
+		send.SendMsg(ch, &q)
 	}
 
 	if arg1 == "receive" {
-		receive.Receive(ch, &q)
+		receive.ReceiveMsg(ch, &q)
 	}
 
 	if arg1 == "task" {
-		task.Task(ch, &q)
+		task.CreateTask(ch, &q)
 	}
 
 	if arg1 == "worker" {
-		worker.Worker(ch, &q)
+		worker.ProcessTask(ch, &q)
 	}
 
 	if arg1 == "emit_logs" {

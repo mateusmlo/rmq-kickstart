@@ -10,8 +10,8 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-// Send sends message to queue
-func Send(ch *amqp.Channel, queue *amqp.Queue) {
+// SendMsg sends message to queue
+func SendMsg(ch *amqp.Channel, queue *amqp.Queue) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 

@@ -7,8 +7,8 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-// Receive consumes messages from queue
-func Receive(ch *amqp.Channel, queue *amqp.Queue) {
+// ReceiveMsg consumes messages from queue
+func ReceiveMsg(ch *amqp.Channel, queue *amqp.Queue) {
 
 	msgs, err := ch.Consume(
 		queue.Name,

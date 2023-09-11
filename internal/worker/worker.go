@@ -9,8 +9,8 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-// Worker processes messages that takes a while
-func Worker(ch *amqp.Channel, q *amqp.Queue) {
+// ProcessTask processes messages that takes a while
+func ProcessTask(ch *amqp.Channel, q *amqp.Queue) {
 	msgs, err := ch.Consume(
 		q.Name,
 		"",
