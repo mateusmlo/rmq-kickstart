@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	utils "github.com/mateusmlo/rabbitmq-hello-world/utils"
+	utils "github.com/mateusmlo/rabbitmq-hello-world/tools"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/spf13/viper"
 )
@@ -17,7 +17,7 @@ type AMQPEnvs struct {
 }
 
 // ConnectAMQP connects to underlying rabbitmq instance
-func ConnectAMQP() (*amqp.Channel, *amqp.Queue, *amqp.Connection) {
+func ConnectAMQP() (*amqp.Channel, *amqp.Connection) {
 	amqpEnvs := AMQPEnvs{
 		Username: viper.GetString("RABBITMQ_USERNAME"),
 		Password: viper.GetString("RABBITMQ_PASSWORD"),
@@ -33,15 +33,38 @@ func ConnectAMQP() (*amqp.Channel, *amqp.Queue, *amqp.Connection) {
 	ch, err := conn.Channel()
 	utils.FailOnError(err, "Failed to open a channel")
 
-	q, err := ch.QueueDeclare(
-		"hello",
+	err = ch.Qos(2, 0, false)
+
+	return ch, conn
+}
+
+// CreateQueue declares a new queue
+func CreateQueue(ch *amqp.Channel, qName string, durable bool, exclusive bool) (q amqp.Queue, err error) {
+	q, err = ch.QueueDeclare(
+		qName,
+		durable,
 		false,
-		false,
-		false,
+		exclusive,
 		false,
 		nil,
 	)
 	utils.FailOnError(err, "Failed to declare a queue")
 
-	return ch, &q, conn
+	return
+}
+
+// CreateExchange declares a new exchange
+func CreateExchange(ch *amqp.Channel, exName string) (err error) {
+	err = ch.ExchangeDeclare(
+		exName,
+		amqp.ExchangeFanout,
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+	utils.FailOnError(err, "Failed to declare an exchange")
+
+	return
 }

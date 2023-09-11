@@ -3,7 +3,7 @@ package receive
 import (
 	"log"
 
-	utils "github.com/mateusmlo/rabbitmq-hello-world/utils"
+	utils "github.com/mateusmlo/rabbitmq-hello-world/tools"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
