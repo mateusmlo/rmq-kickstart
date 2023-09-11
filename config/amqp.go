@@ -16,14 +16,22 @@ type AMQPEnvs struct {
 	Port     int
 }
 
-// ConnectAMQP connects to underlying rabbitmq instance
-func ConnectAMQP() (*amqp.Channel, *amqp.Connection) {
-	amqpEnvs := AMQPEnvs{
-		Username: viper.GetString("RABBITMQ_USERNAME"),
-		Password: viper.GetString("RABBITMQ_PASSWORD"),
-		Host:     viper.GetString("RABBITMQ_NODE_NAME"),
+func newAMQPCredentials(username, password, host string) AMQPEnvs {
+	return AMQPEnvs{
+		Username: username,
+		Password: password,
+		Host:     host,
 		Port:     5672,
 	}
+}
+
+// Connect connects to underlying rabbitmq instance
+func Connect() (*amqp.Channel, *amqp.Connection) {
+	amqpEnvs := newAMQPCredentials(
+		viper.GetString("RABBITMQ_USERNAME"),
+		viper.GetString("RABBITMQ_PASSWORD"),
+		viper.GetString("RABBITMQ_NODE_NAME"),
+	)
 
 	amqpConnURI := fmt.Sprintf("amqp://%s:%s@%s:%d/", amqpEnvs.Username, amqpEnvs.Password, amqpEnvs.Host, amqpEnvs.Port)
 

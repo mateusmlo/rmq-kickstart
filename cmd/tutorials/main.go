@@ -15,7 +15,7 @@ func main() {
 	config.GetEnvs()
 
 	arg1 := os.Args[1]
-	ch, conn := config.ConnectAMQP()
+	ch, conn := config.Connect()
 	defer ch.Close()
 	defer conn.Close()
 
